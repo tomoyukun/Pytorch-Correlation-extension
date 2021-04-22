@@ -11,7 +11,7 @@ This [tutorial](http://pytorch.org/tutorials/advanced/cpp_extension.html) was us
 
 - Build and Install C++ and CUDA extensions by executing `python setup.py install`,
 - Benchmark C++ vs. CUDA by running `python benchmark.py {cpu, cuda}`,
-- Run gradient checks on the code by running `python grad_check.py --backend {cpu, cuda}`.
+- Run gradient checks on the code by running `python grad_check.py {cpu, cuda}`.
 
 # Requirements
 
@@ -108,25 +108,25 @@ out = correlation_sampler(input1, input2)
  * Benchmark are launched with environment variable `CUDA_LAUNCH_BLOCKING` set to `1`.
  * Only `float32` is benchmarked.
  * FlowNetC correlation parameters where launched with the following command:
- 
+
  ```bash
  CUDA_LAUNCH_BLOCKING=1 python benchmark.py --scale ms -k1 --patch 21 -s1 -p0 --patch_dilation 2 -b4 --height 48 --width 64 -c256 cuda -d float
  
  CUDA_LAUNCH_BLOCKING=1 python NV_correlation_benchmark.py --scale ms -k1 --patch 21 -s1 -p0 --patch_dilation 2 -b4 --height 48 --width 64 -c256
  ```
 
- | implementation | Correlation parameters |  device |     pass |      min time |      avg time |
- | -------------- | ---------------------- | ------- | -------- | ------------: | ------------: |
- |           ours |                default | 980 GTX |  forward |  **5.745 ms** |  **5.851 ms** |
- |           ours |                default | 980 GTX | backward |     77.694 ms |     77.957 ms |
- |         NVIDIA |                default | 980 GTX |  forward |     13.779 ms |     13.853 ms |
- |         NVIDIA |                default | 980 GTX | backward | **73.383 ms** | **73.708 ms** |
- |                |                        |         |          |               |               |
- |           ours |               FlowNetC | 980 GTX |  forward |  **26.102 ms** |  **26.179 ms** |
- |           ours |               FlowNetC | 980 GTX | backward | **208.091 ms** | **208.510 ms** |
- |         NVIDIA |               FlowNetC | 980 GTX |  forward |      35.363 ms |      35.550 ms |
- |         NVIDIA |               FlowNetC | 980 GTX | backward |     283.748 ms |     284.346 ms |
- 
+| implementation | Correlation parameters |  device |     pass |      min time |      avg time |
+| -------------- | ---------------------- | ------- | -------- | ------------: | ------------: |
+|           ours |                default | 980 GTX |  forward |  **5.745 ms** |  **5.851 ms** |
+|           ours |                default | 980 GTX | backward |     77.694 ms |     77.957 ms |
+|         NVIDIA |                default | 980 GTX |  forward |     13.779 ms |     13.853 ms |
+|         NVIDIA |                default | 980 GTX | backward | **73.383 ms** | **73.708 ms** |
+|                |                        |         |          |               |               |
+|           ours |               FlowNetC | 980 GTX |  forward |  **26.102 ms** |  **26.179 ms** |
+|           ours |               FlowNetC | 980 GTX | backward | **208.091 ms** | **208.510 ms** |
+|         NVIDIA |               FlowNetC | 980 GTX |  forward |      35.363 ms |      35.550 ms |
+|         NVIDIA |               FlowNetC | 980 GTX | backward |     283.748 ms |     284.346 ms |
+
 ### Notes
  * The overhead of our implementation regarding `kernel_size` > 1 during backward needs some investigation, feel free to
  dive in the code to improve it !
@@ -138,9 +138,9 @@ out = correlation_sampler(input1, input2)
   * No other implementation is avalaible on CPU.
   * It is obviously not recommended to run it on CPU if you have a GPU.
 
- | Correlation parameters |               device |     pass |    min time |    avg time |
- | ---------------------- | -------------------- | -------- | ----------: | ----------: |
- |                default | E5-2630 v3 @ 2.40GHz |  forward |  159.616 ms |  188.727 ms |
- |                default | E5-2630 v3 @ 2.40GHz | backward |  282.641 ms |  294.194 ms |
- |               FlowNetC | E5-2630 v3 @ 2.40GHz |  forward |  2.138 s |  2.144 s |
- |               FlowNetC | E5-2630 v3 @ 2.40GHz | backward | 7.006 s | 7.075 s |
+| Correlation parameters |               device |     pass |    min time |    avg time |
+| ---------------------- | -------------------- | -------- | ----------: | ----------: |
+|                default | E5-2630 v3 @ 2.40GHz |  forward |  159.616 ms |  188.727 ms |
+|                default | E5-2630 v3 @ 2.40GHz | backward |  282.641 ms |  294.194 ms |
+|               FlowNetC | E5-2630 v3 @ 2.40GHz |  forward |  2.138 s |  2.144 s |
+|               FlowNetC | E5-2630 v3 @ 2.40GHz | backward | 7.006 s | 7.075 s |
