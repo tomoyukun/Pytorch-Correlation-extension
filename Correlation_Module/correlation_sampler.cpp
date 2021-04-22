@@ -1,5 +1,5 @@
 #include <torch/extension.h>
-#include <c10/cuda/CUDAGuard.h>
+// #include <c10/cuda/CUDAGuard.h>
 #include <vector>
 #include <iostream>
 
